@@ -1,0 +1,89 @@
+<html>
+<head>
+    <title>Converter</title>
+    </head>
+    <style>
+        body{
+            background-image: url(img/bck.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: aliceblue;
+            margin: 10% auto
+        }
+        div{
+            margin: 30px auto;
+        }
+        label{
+            background-color: salmon;
+            color: aliceblue;
+            font-family: sans-serif;
+            font-weight: 500;
+            font-size: 20px;
+            text-decoration: underline
+           
+        }
+        ::selection{
+            background-color: purple;
+        }
+        input{
+            color: purple;
+            font-style: oblique;
+            font-weight: bold;
+             border-radius: 30px;
+          text-align: center;
+            font-size: 20px;
+            width: 150px;
+        }
+        option{
+            color: blueviolet;
+              width: 100px;
+        }
+        
+    </style>
+<center><body>
+    <img style="width:150;height: 150" src="img/l.png">
+    <div>
+    <label id="l1">Enter amount in </label>
+    <input id="t1" type="text">
+        </div>
+    <div>
+    <button id="toinr">↓Convert↓</button>
+     <button id="tofor">↑Convert↑</button>
+    </div>
+    <div>
+     <label>Currency value in INR</label>
+    <input id="t2" type="text">
+    </div>
+    <script>
+      var queryString = decodeURIComponent(window.location.search);
+queryString = queryString.substring(1);
+var queries = queryString.split("&");
+var rate=Number(queries[0])
+var cname=queries[1]
+var l1=document.getElementById("l1")
+l1.textContent=l1.textContent+cname
+var down=document.getElementById("toinr")
+
+down.addEventListener("click",function(){
+  var inp1=Number(document.getElementById("t1").value)
+  var res=inp1*rate
+  document.getElementById("t2").value=res
+
+})
+var up=document.getElementById("tofor")
+up.addEventListener("click",function(){
+  var inp2=Number(document.getElementById("t2").value)
+  var res=inp2/rate
+  document.getElementById("t1").value=res
+
+})
+
+
+
+
+
+
+    </script>
+    </body>
+    </center>
+</html>

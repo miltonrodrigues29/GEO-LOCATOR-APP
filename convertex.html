@@ -1,0 +1,109 @@
+<html>
+<head>
+    <title>Converter</title>
+    </head>
+    <style>
+       body{
+            margin: 10% auto
+            font-size:20px;
+            font-family: monospace;
+        }
+        div{
+            margin: 30px auto;
+        }
+        label{
+            color:white;
+            font-family: monospace;
+            font-weight: 500;
+            font-size: 30px;
+            text-decoration: underline
+           
+        }
+        ::selection{
+            background-color: purple;
+        }
+        input{
+            color: navy;
+            font-style: oblique;
+            font-weight: bold;
+           /* border-radius: 30px;*/
+            border: none;
+            text-align: center;
+            font-size: 28px;
+            width: 200px;
+            outline: 2px solid #33FF6E;
+          
+        text-align: center;
+        }
+        input:focus{
+          
+            outline: 3px solid #FFAF33;
+        }
+        option{
+            color: blueviolet;
+              width: 100px;
+        }
+        button{
+            font-family: cursive;
+            font-size: 25;
+            background-color: yellow;
+            padding: 3px 10px;
+            text-align: center;
+            border: none;
+            color: grey;
+            border-radius: 15px;
+            margin: auto 2%
+        }
+        
+    </style>
+<center><body style="background-image: url(img/p1.jpg);background-repeat: no-repeat;background-size:100% 100%;background-position: center;">
+    <!--<img style="width:150;height: 150" src="lo.jpg">-->
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+     <br>
+    <br>
+    <br>
+    <br>
+    <div>
+    <label id="l1">Enter amount in </label>&nbsp;&nbsp; 
+    <input id="t1" type="text">
+        </div>
+    <div>
+    <br>
+    <button id="toinr">↓Convert↓</button>
+     <button id="tofor">↑Convert↑</button>
+    </div>
+    <div><br>
+     <label>Currency value in INR</label>&nbsp;&nbsp;&nbsp;
+    <input id="t2" type="text">
+    </div>
+    <script>
+      var queryString = decodeURIComponent(window.location.search);
+queryString = queryString.substring(1);
+var queries = queryString.split("&");
+var rate=Number(queries[0])
+var cname=queries[1]
+var l1=document.getElementById("l1")
+l1.textContent=l1.textContent+cname
+var down=document.getElementById("toinr")
+
+down.addEventListener("click",function(){
+  var inp1=Number(document.getElementById("t1").value)
+  var res=inp1*rate
+  document.getElementById("t2").value=res
+
+})
+var up=document.getElementById("tofor")
+up.addEventListener("click",function(){
+  var inp2=Number(document.getElementById("t2").value)
+  var res=inp2/rate
+  document.getElementById("t1").value=res
+
+})
+    </script>
+    </body>
+    </center>
+</html>

@@ -1,0 +1,163 @@
+<html>
+<head><title></title>
+ <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+ <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+ <style type="text/css">
+     body{
+        color:purple;
+        font-family: monospace;
+        font-size: 20px;
+     }
+     h3{
+      font-size: 20px;
+     }
+     label{
+       color:#E34116;
+        font-weight: 600;
+        font-size: 20px;
+     }
+ </style>
+
+</head>
+  <body style="background-image: url(img/final2.jpg);background-repeat: no-repeat;background-size:100% 100%;background-position: center;">
+    <center>
+    <br>
+    <h2 style="color: blue">COUNTRY DETAILS</h3>
+    <h3>Country Name: <label id="i0"></label></h3><button class="btn btn-info" id="map"><span id="map1"></span>See on map</button><br>
+    <h3>Flag:</h3><img id="flag" width="250px" height="150px"><br>
+    <h3>Capital: <label id="i1"></label></h3><button  class="btn btn-warning" id="weather"><span id="weather1"></span>Get Weather</button>
+    <h3>Population: <label id="i2"></label></h3>
+    
+    <h3>Language: <label id="i4"></label></h3>
+    <h3>Distance from current location:</h3><button class="btn btn-danger" id="getd"><span id="getd1"></span>Get Distance</button>    <label id="dist"></label><br>
+    <h3>Currency: <label id="i3"></label></h3><button id="converter" class="btn btn-success"><span id="converter1"></span>Currency Converter</button><br><br>
+  
+
+    
+    <button class="btn btn-dark"><a style="text-decoration-line: none" href="index.html">BACK</a></button>
+        
+        
+    
+    </center>
+    <script>
+ var lat1,lat2,lon1,lon2,d;
+var queryString = decodeURIComponent(window.location.search);
+queryString = queryString.substring(1);
+var queries = queryString.split("&");
+for (var i = 0; i < queries.length-3; i++)
+{
+  var t=document.getElementById("i"+i.toString())
+  t.textContent=queries[i]
+}
+var im=document.getElementById("flag")
+flagimage=queries[queries.length-3]
+console.log(flagimage)
+im.setAttribute("src",flagimage) 
+var bx=document.getElementById("weather")
+bx.addEventListener("click",function(){
+  $("#weather1").addClass("spinner-border spinner-border-sm")
+ var l=document.getElementById("i1").textContent
+        window.location="https://api.openweathermap.org/data/2.5/weather?q="+l+"&mode=html&appid=71ac6ee65d64bba7caec4b933e49bbb8&mode=html"
+        $("#weather1").removeClass("spinner-border spinner-border-sm")
+})
+lat2=queries[queries.length-2]
+lon2=queries[queries.length-1]
+
+
+
+function getPosition(){
+  $("#getd1").addClass("spinner-border spinner-border-sm")
+    var watchID=navigator.geolocation.getCurrentPosition(onSuccess, onError)
+
+}
+function onSuccess(position)
+{
+    lat1= position.coords.latitude
+    lon1=position.coords.longitude
+ console.log(lat1+"      "+lon1) 
+ distanc(lat1,lon1,lat2,lon2)  
+}
+function onError(error)
+{  $("#getd1").removeClass("spinner-border spinner-border-sm")
+    alert('Code: '+error.code+'\n'+'message: '+error.message+'\n')
+}
+
+// function toRadians(Value) {
+//     * Converts numeric degrees to radians 
+//     return Value * Math.PI / 180;
+// }
+
+
+function distanc(lat1, lon1, lat2, lon2) {
+  var p = 0.017453292519943295;    // Math.PI / 180
+  var c = Math.cos;
+  var a = 0.5 - c((lat2 - lat1) * p)/2 + 
+          c(lat1 * p) * c(lat2 * p) * 
+          (1 - c((lon2 - lon1) * p))/2;
+
+  d= 12742 * Math.asin(Math.sqrt(a));
+    $("#getd").remove()
+  distance.textContent=(d+" km") // 2 * R; R = 6371 km
+}
+
+// function calcul(){
+
+// var R = 6371; // km
+// var p1 = toRadians(lat1);
+// var p2 = toRadians(lat2);
+// console.log(p1)
+// console.log(p2)
+// var dp = toRadians(lat2-lat1);
+// var dl = toRadians(lon2-lon1);
+
+// var a = Math.sin(dp/2) * Math.sin(dp/2) +
+//         Math.cos(p1) * Math.cos(p2) *
+//         Math.sin(dl/2) * Math.sin(dl/2);
+// var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+// d = R * c;
+// distance.textContent=(d+" km")
+
+
+// }
+var distance=document.getElementById("dist")
+var distb=document.getElementById("getd")
+distb.addEventListener("click",getPosition)
+var convert=document.getElementById("converter")
+convert.addEventListener("click",function(){
+$("#converter1").addClass("spinner-border spinner-border-sm")
+convert.setAttribute("disabled",true)
+var request = new XMLHttpRequest();
+
+request.open('GET', 'https://free.currencyconverterapi.com/api/v6/convert?q='+queries[3]+'_INR&compact=ultra&apiKey=12f627771d8bcbe51e54', true);
+
+request.onload = function () {
+
+  // Begin accessing JSON data here
+  var data = JSON.parse(this.response);
+
+  if (request.status >= 200 && request.status < 400) {
+    var s=queries[3]+"_INR"
+    var queryString = "?"+data[Object.keys(data)[0]]+"&"+queries[3];
+    $("#converter1").removeClass("spinner-border spinner-border-sm")
+    convert.disabled=false;
+window.location.href = "convertex.html" + queryString;
+  } else {
+    console.log('error');
+  }
+}
+request.send();
+})
+$("#map").on("click",function(){
+$("#map1").addClass("spinner-border spinner-border-sm")
+     window.location.href="https://www.latlong.net/c/?lat="+lat2+"&long="+lon2;
+     $("#map1").removeClass("spinner-border spinner-border-sm")
+})
+</script>
+    
+    </body>
+
+
+
+
+</html>
